@@ -10,7 +10,9 @@
          }
         </style>
 
-        <haystack-explorer-containers>
+        <haystack-explorer-containers
+            host="[[host]]"
+            port="[[port]]">
         </haystack-explorer-containers>
     </template>
 
@@ -18,8 +20,20 @@
 
      Polymer({
          
-         is: 'haystack-containers-view'
-         
+         is: 'haystack-containers-view',
+
+         properties: {
+             host: {
+                 type: String,
+                 value: 'localhost',
+             },
+             
+             port: {
+                 type: Number,
+                 value: 80,
+             },
+         },
+
      });
      
     </script>

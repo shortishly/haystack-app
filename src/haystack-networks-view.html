@@ -11,7 +11,9 @@
          }
         </style>
 
-        <haystack-explorer-networks>
+        <haystack-explorer-networks
+            host="[[host]]"
+            port="[[port]]">
         </haystack-explorer-networks>
     </template>
 
@@ -19,8 +21,19 @@
 
      Polymer({
          
-         is: 'haystack-networks-view'
-         
+         is: 'haystack-networks-view',
+
+         properties: {
+             host: {
+                 type: String,
+                 value: 'localhost',
+             },
+             
+             port: {
+                 type: Number,
+                 value: 80,
+             },
+         },
      });
      
     </script>

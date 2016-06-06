@@ -59,7 +59,7 @@
 
         <app-route
             route="{{route}}"
-            pattern="/haystack-app/:page"
+            pattern="{{_pattern()}}"
             data="{{routeData}}"
             tail="{{subroute}}">
         </app-route>
@@ -74,9 +74,9 @@
                     class="drawer-list"
                     role="navigation">
 
-                    <a name="services" href="/services">Services</a>
-                    <a name="containers" href="/containers">Containers</a>
-                    <a name="networks" href="/networks">Networks</a>
+                    <a name="services" href="[[_route('services')]]">Services</a>
+                    <a name="containers" href="[[_route('containers')]]">Containers</a>
+                    <a name="networks" href="[[_route('networks')]]">Networks</a>
                 </iron-selector>
             </app-drawer>
 
@@ -105,18 +105,26 @@
                     attr-for-selected="name">
 
                     <haystack-services-view
+                        host="[[_host()]]"
+                        port="[[_port()]]"
                         name="services">
                     </haystack-services-view>
 
                     <haystack-containers-view
+                        host="[[_host()]]"
+                        port="[[_port()]]"
                         name="containers">
                     </haystack-containers-view>
 
                     <haystack-networks-view
+                        host="[[_host()]]"
+                        port="[[_port()]]"
                         name="networks">
                     </haystack-networks-view>
 
                     <haystack-settings-view
+                        host="[[_host()]]"
+                        port="[[_port()]]"
                         name="settings">
                     </haystack-settings-view>
                 </iron-pages>
@@ -130,13 +138,11 @@
          is: 'haystack-app',
 
          properties: {
-
              page: {
                  type: String,
                  reflectToAttribute: true,
                  observer: '_pageChanged'
              },
-
          },
 
          observers: [
@@ -155,6 +161,40 @@
                  null,
                  true);
          },
+
+         _pattern: function() {
+             if(window.location.hostname === 'shortishly.github.io') {
+                 return '/haystack-app/:page';
+             } else {
+                 return '/:page';
+             }
+         },
+
+         _route: function(page) {
+             if(window.location.hostname === 'shortishly.github.io') {
+                 return '/haystack-app/' + page ;
+             } else {
+                 return page;
+             }
+         },
+
+         _host: function() {
+             if(window.location.hostname === 'dev001.local') {
+                 return 'dev001.local';
+             } else {
+                 return window.location.hostname;
+             }
+         },
+
+         _port: function() {
+             if(window.location.hostname === 'shortishly.github.io') {
+                 return 80;
+             } else {
+                 return 8080;
+             }
+         },
+         
+         
      });
     </script>
 </dom-module>
