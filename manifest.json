@@ -1,0 +1,6 @@
+{
+  "name": "haystack",
+  "short_name": "haystack",
+  "start_url": "/",
+  "display": "standalone"
+}

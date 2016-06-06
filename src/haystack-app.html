@@ -1,0 +1,160 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-styles/default-theme.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+
+<dom-module id="haystack-app">
+    <template>
+        <style is="custom-style">
+         :host {
+             display: block;
+             --app-primary-color: #4285f4;
+             --app-secondary-color: black;
+         }
+
+         app-header {
+             background-color: var(--app-primary-color);
+             color: #fff;
+         }
+
+         app-header paper-icon-button {
+             --paper-icon-button-ink-color: white;
+         }
+
+         .drawer-list {
+             margin: 0 20px;
+         }
+
+         .drawer-list a {
+             display: block;
+             padding: 0 16px;
+             line-height: 40px;
+             text-decoration: none;
+             color: var(--app-secondary-color);
+         }
+
+         .drawer-list a.iron-selected {
+             color: black;
+             font-weight: bold;
+         }
+
+         .drawer-list a.subroute {
+             padding-left: 32px;
+         }
+        </style>
+
+        <app-location route="{{route}}"></app-location>
+
+        <app-route
+            route="{{route}}"
+            pattern="/:page"
+            data="{{routeData}}"
+            tail="{{subroute}}">
+        </app-route>
+
+        <app-drawer-layout fullbleed>
+
+            <app-drawer>
+                <app-toolbar>Menu</app-toolbar>
+                <iron-selector
+                    selected="[[page]]"
+                    attr-for-selected="name"
+                    class="drawer-list"
+                    role="navigation">
+
+                    <a name="services" href="/services">Services</a>
+                    <a name="containers" href="/containers">Containers</a>
+                    <a name="networks" href="/networks">Networks</a>
+                </iron-selector>
+            </app-drawer>
+
+
+            <app-header-layout
+                has-scrolling-region>
+
+                <app-header
+                    condenses
+                    reveals
+                    effects="waterfall">
+
+                    <app-toolbar>
+                        <paper-icon-button
+                            icon="menu"
+                            drawer-toggle>
+                        </paper-icon-button>
+
+                        <div title>Haystack</div>
+                    </app-toolbar>
+                </app-header>
+
+                <iron-pages
+                    role="main"
+                    selected="[[page]]"
+                    attr-for-selected="name">
+
+                    <haystack-services-view
+                        name="services">
+                    </haystack-services-view>
+
+                    <haystack-containers-view
+                        name="containers">
+                    </haystack-containers-view>
+
+                    <haystack-networks-view
+                        name="networks">
+                    </haystack-networks-view>
+
+                    <haystack-settings-view
+                        name="settings">
+                    </haystack-settings-view>
+                </iron-pages>
+            </app-header-layout>
+        </app-drawer-layout>
+    </template>
+
+    <script>
+     Polymer({
+
+         is: 'haystack-app',
+
+         properties: {
+
+             page: {
+                 type: String,
+                 reflectToAttribute: true,
+                 observer: '_pageChanged'
+             },
+
+         },
+
+         observers: [
+             '_routePageChanged(routeData.page)'
+         ],
+
+         _routePageChanged: function(page) {
+             this.page = page || 'services';
+         },
+
+         _pageChanged: function(page) {
+             this.importHref(
+                 this.resolveUrl(
+                     'haystack-' + page + '-view.html'),
+                 null,
+                 null,
+                 true);
+         },
+     });
+    </script>
+</dom-module>

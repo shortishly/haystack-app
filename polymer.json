@@ -1,0 +1,9 @@
+{
+    "entrypoint": "index.html",
+    "shell": "src/haystack-app.html",
+    "fragments": [
+        "src/haystack-services-view.html",
+        "src/haystack-containers-view.html",
+        "src/haystack-networks-view.html"
+    ]
+}
