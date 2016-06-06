@@ -17,6 +17,13 @@ before_script:
 
 script: polymer build
 
+branches:
+  only:
+    - master
+
+after_success:
+  - bin/push-bundled-build-to-ghp.sh
+
 env:
   global:
     secure: WCBtpJYAajfOJKwRibumPtLETduj6OGL+GA8qnbOBzvh5IWOoiBGUJMntdt2rtbfaVLl1koDgbdl4bpcn2JSeysWoV2xscpTSShYg9CvQ05fFBpc1AxNikgeNF5nSMN1EoxdM8v6NuiU8yhNyVhDITYyisFGpwVdirtM1YtTjlXhalwoKLqD4MjcWsE9aZfRvCoFkv1nOJTqvyD3oMaljH9lECzr5k6A/E7AfP5bfHzDkG5dZGb/FVEOI2ieSrTyTlWBpz4q9ltrMAb8ozcbGm6F/qU1tmrLwSgpLGAKlTv3FBu3CXg/8VYAkC2ptspTOolKyN90Q+MRsL6jhm9PAD7+P62xBK/yp9yV3sjuXnSZzTbhoqKD0NsR7IwBAwxayAEIwfR/QRnvZXois3x4OlwlFlhARiHX0edEgqySv6fY/HFN5oSZDPzBpRdtReJrWt91Te3AEMc21A8eXVoNEAClCowuco3WrfMPkovBnAcqtWQ+cRlLdmf0yJThsILQRryjmAiC4Rwy41nphCVGLIST8BazT7sOpSR3aXhYR6dzEFKXMoUxaM1R4F6nmGqWCzSIkzoOvjItcLCobDImW7qTckQfrbLv0YLikffl8IxdjgbRzt5VWNi0td1y+UH3URjk3WyySpCtYetqiLfLD1tM7yQxqWYUlE0t9pHp0nY=
