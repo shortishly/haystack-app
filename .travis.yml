@@ -13,9 +13,17 @@ addons:
 
 before_script:
   - npm install -g bower polymer-cli web-component-tester
-  - bower install
 
-script: polymer build
+script:
+  - bower install
+  - polymer build
+
+branches:
+  only:
+    - master
+
+after_success:
+  - bin/push-build-to-ghp.sh
 
 env:
   global:
