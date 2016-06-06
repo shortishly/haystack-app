@@ -18,15 +18,15 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     git config --global user.email "noreply@travis-ci.org"
     git config --global user.name "Travis CI"
 
-    git clone --single-branch . tmp/ghp-$$
-    pushd !$
+    git clone --single-branch . tmp/ghp
+    pushd tmp/ghp
     git checkout --orphan gh-pages
     git remote set-url origin https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git
     git rm -rf -q .
     cp -r ${TRAVIS_BUILD_DIR}/build/bundled .
     git add -A .
     git commit -am "build ${TRAVIS_BUILD_NUMBER} for ${TRAVIS_COMMIT}"
-    git push --force -u origin gh-pages
+    git push --force -u origin gh-pages &> /dev/null
     popd
 fi
     
