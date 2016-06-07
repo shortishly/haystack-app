@@ -15,6 +15,8 @@
 <link rel="import" href="../bower_components/paper-styles/default-theme.html">
 <link rel="import" href="../bower_components/paper-styles/typography.html">
 
+<link rel="import" href="haystack-analytics.html">
+
 <dom-module id="haystack-app">
     <template>
         <style is="custom-style">
@@ -54,6 +56,8 @@
              padding-left: 32px;
          }
         </style>
+
+        <haystack-analytics key="UA-78899163-1"></haystack-analytics>
 
         <app-location route="{{route}}"></app-location>
 
