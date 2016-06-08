@@ -1,0 +1,30 @@
+<!DOCTYPE html><html><head>
+    <title>haystack-explorer test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1,user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../haystack-explorer.html">
+  </head>
+  <body>
+
+    <test-fixture id="basic">
+      <template>
+        <haystack-explorer></haystack-explorer>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('haystack-explorer', function() {
+
+        test('instantiating the element works', function() {
+          let element = fixture('basic');
+          assert.equal(element.is, 'haystack-explorer');
+        });
+
+      });
+    </script>
+  
+
+</body></html>

@@ -1,0 +1,87 @@
+<html><head><link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../google-chart/google-chart.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-badge/paper-badge.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../paper-card/paper-card.html">
+<link rel="import" href="../paper-icon-button-toggles/paper-icon-button-toggles.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+
+</head><body><dom-module id="haystack-explorer-services">
+    <template>
+        <style>:host{display:block;}</style>
+
+        <style include="iron-flex iron-flex-alignment"></style>
+        
+        <iron-ajax id="services" auto="" url="http://[[host]]:[[port]]/api/info" last-response="{{info}}">
+        </iron-ajax>
+
+        <template is="dom-repeat" items="[[_services(info)]]" as="service">
+            <paper-card heading="[[service.name]]">
+                <div class="card-content layout vertical">
+
+                    <template is="dom-if" if="[[service.requests]]">
+                        <google-chart type="pie" cols="[{&quot;label&quot;:&quot;Endpoint&quot;, &quot;type&quot;:&quot;string&quot;}, {&quot;label&quot;:&quot;Requests&quot;, &quot;type&quot;:&quot;number&quot;}]" rows$="[[service.requests]]">
+                        </google-chart>
+                    </template>
+
+                    <div class="layout horizontal">
+                        <div hidden="">
+                            <iron-icon icon="group-work"></iron-icon>
+                            <paper-badge label="[[service.value.length]]">
+                        </paper-badge></div>
+                        <div class="flex">
+                        </div>
+                        <paper-icon-button-toggles active="{{service.reveal}}">
+                        </paper-icon-button-toggles>
+                    </div>
+
+                    <template is="dom-if" if="[[service.reveal]]">
+                        <div class="layout vertical">
+                            <template is="dom-repeat" items="[[service.value]]" as="detail">
+                                <paper-card heading="[[detail.container.name]]">
+                                    <div class="card-content">
+                                        <div class="layout horizontal">
+                                            <span class="flex">
+                                                <iron-icon icon="class"></iron-icon>
+                                                [[detail.class]]
+                                            </span>
+                                            <span class="flex">
+                                                <iron-icon icon="loyalty"></iron-icon>
+                                                [[detail.priority]]
+                                            </span>
+                                            <span class="flex">
+                                                <iron-icon icon="alarm"></iron-icon>
+                                                [[detail.ttl]]
+                                            </span>
+                                            <span class="flex">
+                                                <iron-icon icon="line-weight"></iron-icon>
+                                                [[detail.weight]]
+                                            </span>
+                                        </div>
+                                        <div class="layout horizontal">
+                                            <span>
+                                                <iron-icon icon="dns"></iron-icon>
+                                                [[detail.container.addr]]
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </paper-card>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </paper-card>
+        </template>
+    </template>
+
+    <script>Polymer({is:"haystack-explorer-services",properties:{host:{type:String,value:"localhost"},port:{type:Number,value:80},reveal:{type:Boolean,value:!1},services:{type:Array}},_requests:function(e,r){return void 0!==r[e]?Object.keys(r[e]).reduce(function(t,s){return t.push([s,r[e][s]]),t},[]):void 0},_services:function(e){var r=this,t=e.services;return Object.keys(t).map(function(s,n){return{name:s,index:n,reveal:!1,value:t[s].map(function(r){return r.container=e.containers[r.id],r}),requests:r._requests(s,e.proxy.requests)}})}});</script>
+</dom-module>
+</body></html>

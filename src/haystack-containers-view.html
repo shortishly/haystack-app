@@ -1,0 +1,41 @@
+<html><head><meta charset="UTF-8"><link rel="import" href="haystack-app.html"></head><body><div hidden="" by-vulcanize=""><dom-module id="haystack-explorer-containers" assetpath="../bower_components/haystack-explorer/">
+    <template>
+        <style>:host{display:block;}</style>
+
+        <style include="iron-flex iron-flex-alignment"></style>
+
+        <iron-ajax auto="" url="http://[[host]]:[[port]]/api/info" last-response="{{info}}">
+        </iron-ajax>
+
+        <template is="dom-repeat" items="[[_containers(info)]]" as="container">
+            <paper-card heading="[[container.value.name]]">
+                <div class="card-content">
+                    <span>
+                        <iron-icon icon="dns"></iron-icon>
+                        [[container.value.addr]]
+                    </span>
+                    <span>
+                        <iron-icon icon="hardware:computer"></iron-icon>
+                        [[container.value.mac_address]]
+                    </span>
+                </div>
+            </paper-card>
+        </template>
+  </template>
+  
+  <script>Polymer({is:"haystack-explorer-containers",properties:{host:{type:String,value:"localhost"},port:{type:Number,value:80}},_containers:function(e){var r=e.containers;return Object.keys(r).map(function(e,t){return{name:e,index:t,value:r[e]}})}});</script>
+</dom-module>
+</div><dom-module id="haystack-containers-view">
+    <template>
+        <style>:host{display:block;padding:10px;}</style>
+
+        <haystack-explorer-containers host="[[host]]" port="[[port]]">
+        </haystack-explorer-containers>
+    </template>
+
+    <script>Polymer({is:"haystack-containers-view",properties:{host:{type:String,value:"localhost"},port:{type:Number,value:80}}});</script>
+
+</dom-module>
+
+
+</body></html>
